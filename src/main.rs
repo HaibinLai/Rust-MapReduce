@@ -1,13 +1,11 @@
+mod mapper;
+
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 use std::thread;
 
 // Map function
-fn map(data: &str) -> Vec<(String, usize)> {
-    data.split_whitespace()
-        .map(|word| (word.to_string(), 1))
-        .collect()
-}
+
 
 // Reduce function
 fn reduce(mapped_data: Vec<(String, usize)>) -> HashMap<String, usize> {
@@ -32,7 +30,7 @@ fn main() {
     for line in input {
         let results_clone = Arc::clone(&results);
         let handle = thread::spawn(move || {
-            let mapped = map(line);
+            let mapped = mapper::map(line);
             results_clone.lock().unwrap().push(mapped);
         });
         handles.push(handle);

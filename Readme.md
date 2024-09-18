@@ -13,8 +13,8 @@ This project implements a simple MapReduce algorithm in Rust. It reads a set of 
 
 ## Requirements
 
-- Rust 1.0 or higher
-- Cargo (Rust package manager)
+- Rust .11 or higher
+- Cargo (Rust package manager) 1.81.0
 
 ## Getting Started
 
