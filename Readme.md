@@ -4,6 +4,7 @@
 ## Overview
 
 This project implements a simple MapReduce algorithm in Rust. It reads a set of strings and counts the occurrences of each word, demonstrating basic parallel processing using threads.
+![img.png](image/img.png)
 
 ## Features
 
