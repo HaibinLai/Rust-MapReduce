@@ -37,6 +37,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
+    println!("Read complete");
+
    let final_result = Framework::map_reduce(input);
 
     // Print the result
