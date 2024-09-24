@@ -2,7 +2,8 @@ mod framework;
 mod mapper;
 mod reducer;
 mod mapreduce;
-mod thread_pool;
+// mod Model;
+// mod thread_pool;
 // mod threadPool_test;
 
 use std::fs;
@@ -82,8 +83,8 @@ fn test_main(){
         "rust is great".to_string(),
     ];
 
-    // use crate::framework::MapReducestr;
-    let final_result = framework::map_reduce_str(input);
+    // use crate::framework::MapReduce_str;
+    let final_result = framework::map_reduce_string(input);
 
     // Print the result
     for (word, count) in final_result {

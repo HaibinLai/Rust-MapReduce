@@ -1,8 +1,8 @@
-use std::collections::HashMap;
-use std::sync::{Arc, Mutex};
+// use std::collections::HashMap;
+// use std::sync::{Arc, Mutex};
 
-use std::thread;
-use crate::{mapper};
+// use std::thread;
+// use crate::{mapper};
 
 // pub fn fetch_reduce(input: Vec<String>) {
 //
