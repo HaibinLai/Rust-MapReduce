@@ -4,6 +4,10 @@
  use crate::{mapper, reducer};
 
  pub fn map_reduce_string(input: Vec<String>) -> HashMap<String, usize> {
+
+     /**
+     # Map
+     */
      let mut handles = vec![];
      let results = Arc::new(Mutex::new(vec![]));
 
@@ -24,8 +28,10 @@
 
      println!("Finish Shuffling");
 
+     /**
+     # Reduce
+     */
      let final_result = reducer::fetch_reduce(results);
-
      println!("Finish Reduce");
 
      final_result
@@ -47,12 +53,14 @@
         }
 
         println!("Finish Map");
+        /////////////////////////////////////////////////
 
         for handle in handles {
             handle.join().unwrap();
         }
 
         println!("Finish Shuffling");
+        /////////////////////////////////////////////////
 
         let mut final_result = HashMap::new();
         for mapped_data in results.lock().unwrap().iter() {
@@ -63,6 +71,7 @@
         }
 
         println!("Finish Reduce");
+        /////////////////////////////////////////////////
 
         final_result
     }
