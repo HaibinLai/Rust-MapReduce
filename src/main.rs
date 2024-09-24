@@ -2,6 +2,7 @@ mod framework;
 mod mapper;
 mod reducer;
 mod mapreduce;
+mod thread_pool;
 
 use std::fs;
 use std::io::{self, BufRead};
