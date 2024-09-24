@@ -1,7 +1,7 @@
 mod framework;
 mod mapper;
 mod reducer;
-mod mapreduce;
+// mod mapreduce;
 // mod Model;
 // mod thread_pool;
 // mod threadPool_test;
