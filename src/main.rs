@@ -12,9 +12,20 @@ use std::io::{self, BufRead};
 fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 
-    let file_paths = vec!["books/Beowulf.txt", "books/Adventures_in_Wonderland.txt", "books/Pride_and_Prejudice.txt",
-        "books/Sherlock_Holmes.txt", "books/The_Prince.txt", "books/Dorian_Gray.txt", "books/Dracula.txt",
-                                "books/Dubliners.txt", "books/Great_Expectations.txt", "books/Siddhartha.txt"]; // 替换为你的文件路径
+    let file_paths =
+        vec![
+        "books/Beowulf.txt",
+        "books/Adventures_in_Wonderland.txt",
+        "books/Pride_and_Prejudice.txt",
+        "books/Sherlock_Holmes.txt",
+        "books/The_Prince.txt",
+        "books/Dorian_Gray.txt",
+        "books/Dracula.txt",
+        "books/Dubliners.txt",
+        "books/Great_Expectations.txt",
+        "books/Siddhartha.txt"
+        ]; // 替换为你的文件路径
+
     let mut input = Vec::new();
 
     for path in file_paths {
