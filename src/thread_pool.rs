@@ -91,6 +91,10 @@ pub struct Pool {
 # Worker
 
 @worker_id: id for worker, let it be the same as thread id
+
+@t: An owned permission to join on a thread (block on its termination).
+A JoinHandle detaches the associated thread when it is dropped,
+which means that there is no longer any handle to the thread and no way to join on it.
 */
 struct Worker where
 {
