@@ -1,11 +1,51 @@
+// implement by Haibin Lai
+/**
+# thread
+
+The threading model
+
+An executing Rust program consists of a collection of native OS threads,each with their own stack and local state.
+Threads can be named, and provide some built-in support for low-level synchronization.
+*/
 use std::thread::{self, JoinHandle};
+
+/**
+# sync
+
+Useful synchronization primitives.
+The need for synchronization
+
+Conceptually, a Rust program is a series of operations which will be executed on a computer.
+The timeline of events happening in the program is consistent with the order of the operations in the code.
+*/
 use std::sync::{Arc, mpsc, Mutex};
 
+/**
+# FnOnce()
 
+Instances of FnOnce can be called, but might not be callable multiple times.
+Because of this, if the only thing known about a type is that it implements FnOnce, it can only be called once.
+
+---
+
+# Send
+
+pub unsafe trait Send
+Types that can be transferred across thread boundaries.
+This trait is automatically implemented when the compiler determines it's appropriate.
+*/
 type Job = Box<dyn FnOnce() + 'static + Send>;
+
+
 enum Message {
-    ByeBye,
+    JobFinish,
     NewJob(Job),
+}
+
+pub struct Pool {
+    workers: Vec<Worker>,
+    max_workers: usize,
+    sender: mpsc::Sender<Message>
 }
 
 struct Worker where
@@ -25,7 +65,7 @@ impl Worker
                         println!("do job from worker[{}]", id);
                         job();
                     },
-                    Message::ByeBye => {
+                    Message::JobFinish => {
                         println!("ByeBye from worker[{}]", id);
                         break
                     },
@@ -40,11 +80,7 @@ impl Worker
     }
 }
 
-pub struct Pool {
-    workers: Vec<Worker>,
-    max_workers: usize,
-    sender: mpsc::Sender<Message>
-}
+
 
 impl Pool where {
     pub fn new(max_workers: usize) -> Pool {
@@ -73,7 +109,7 @@ impl Pool where {
 impl Drop for Pool {
     fn drop(&mut self) {
         for _ in 0..self.max_workers {
-            self.sender.send(Message::ByeBye).unwrap();
+            self.sender.send(Message::JobFinish).unwrap();
         }
         for w in self.workers.iter_mut() {
             if let Some(t) = w.t.take() {
