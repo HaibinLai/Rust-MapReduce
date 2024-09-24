@@ -31,6 +31,7 @@ mod tests {
         let results = Arc::new(Mutex::new(vec![]));
 
         for line in input {
+            p.execute(|| mapper::map(line));
             let results_clone = Arc::clone(&results);
             let handle = thread::spawn(move || {
                 let mapped = mapper::map(line);
