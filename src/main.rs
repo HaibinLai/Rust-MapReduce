@@ -74,7 +74,7 @@ fn test_main(){
     ];
 
     // use crate::framework::MapReducestr;
-    let final_result = framework::map_reduce_string(input);
+    let final_result = framework::map_reduce_str(input);
 
     // Print the result
     for (word, count) in final_result {
