@@ -1,6 +1,7 @@
 // use std::collections::HashMap;
 // use std::sync::{Arc, Mutex};
 // use std::thread;
+// use crate::reducer::fetch_reduce;
 //
 // mod mapper {
 //     pub fn map(line: &str) -> Vec<(String, usize)> {
@@ -23,51 +24,51 @@
 //     }
 // }
 //
-// pub fn map_reduce<'a>(input: Vec<&'a str>) -> HashMap<String, usize> {
-//     let mut handles = vec![];
-//     let results = Arc::new(Mutex::new(vec![]));
-//
-//     for line in input {
-//         let results_clone = Arc::clone(&results);
-//         let handle = thread::spawn(move || {
-//             let mapped = mapper::map(line);
-//             results_clone.lock().unwrap().push(mapped);
-//         });
-//         handles.push(handle);
-//     }
-//
-//     println!("Finish Map");
-//
-//     for handle in handles {
-//         handle.join().unwrap();
-//     }
-//
-//     println!("Finish Shuffling");
-//
-//     let mut final_result = HashMap::new();
-//     for mapped_data in results.lock().unwrap().iter() {
-//         let reduced = reducer::reduce(mapped_data.clone());
-//         for (word, count) in reduced {
-//             *final_result.entry(word).or_insert(0) += count;
-//         }
-//     }
-//
-//     println!("Finish Reduce");
-//
-//     final_result
-// }
+// // pub fn map_reduce<'a>(input: Vec<&'a str>) -> HashMap<String, usize> {
+// //     let mut handles = vec![];
+// //     let results = Arc::new(Mutex::new(vec![]));
+// //
+// //     for line in input {
+// //         let results_clone = Arc::clone(&results);
+// //         let handle = thread::spawn(move || {
+// //             let mapped = mapper::map(line);
+// //             results_clone.lock().unwrap().push(mapped);
+// //         });
+// //         handles.push(handle);
+// //     }
+// //
+// //     println!("Finish Map");
+// //
+// //     for handle in handles {
+// //         handle.join().unwrap();
+// //     }
+// //
+// //     println!("Finish Shuffling");
+// //
+// //     let mut final_result = HashMap::new();
+// //     for mapped_data in results.lock().unwrap().iter() {
+// //         let reduced = reducer::reduce(mapped_data.clone());
+// //         for (word, count) in reduced {
+// //             *final_result.entry(word).or_insert(0) += count;
+// //         }
+// //     }
+// //
+// //     println!("Finish Reduce");
+// //
+// //     final_result
+// // }
 //
 // #[test]
 // fn main_test() {
-//     let input = vec![
-//         "hello world",
-//         "hello rust",
-//         "hello map reduce",
-//         "rust is great",
-//     ];
-//
-//     let result = map_reduce(input);
-//     for (word, count) in result {
-//         println!("{}: {}", word, count);
-//     }
+//     // let input = vec![
+//     //     "hello world",
+//     //     "hello rust",
+//     //     "hello map reduce",
+//     //     "rust is great",
+//     // ];
+//     //
+//     // let result = fetch_reduce(input);
+//     // for (word, count) in result {
+//     //     println!("{}: {}", word, count);
+//     // }
 // }

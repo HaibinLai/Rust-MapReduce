@@ -6,10 +6,6 @@ mod mapreduce;
 use std::fs;
 use std::io::{self, BufRead};
 
-// Map function
-
-
-// Reduce function
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
