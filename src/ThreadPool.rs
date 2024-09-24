@@ -1,4 +1,5 @@
 // implement by Haibin Lai
+
 /**
 # thread
 
@@ -40,43 +41,57 @@ type Job = Box<dyn FnOnce() + 'static + Send>;
 enum Message {
     JobFinish,
     NewJob(Job),
+    JobErr,
 }
 
+/**
+# ThreadPool
+
+@workers: the activate workers in pool
+
+@max_workers: the thread num we have in pool
+
+@sender:The single-consumer used for sending tasks to worker threads.
+
+## Thread Model:
+
+The sender in the thread pool implementation is part of an *MPSC* (multi-producer, single-consumer)
+channel used for sending tasks to worker threads. Here's a detailed explanation of its role:
+
+**Channel Creation**: mpsc::channel() creates a new channel consisting of a sender (sender) and a receiver (receiver).
+The sender allows you to send messages (in this case, jobs) to the receiver.
+
+**Submitting Tasks**: When you call the execute method, the task is wrapped in a Box and sent to the channel using self.sender.send(job).
+This is how you submit work to the thread pool.
+
+**Worker Threads**: Each worker thread listens for tasks by calling receiver.recv().
+When a task is received, the thread executes it.
+
+**Concurrency**: This design allows multiple threads to submit tasks concurrently (multiple producers)
+while the worker threads consume and execute tasks one at a time (single consumer).
+
+*/
 pub struct Pool {
     workers: Vec<Worker>,
     max_workers: usize,
     sender: mpsc::Sender<Message>
 }
 
+/**
+# Worker
+
+@worker_id: id for worker, let it be the same as thread id
+*/
 struct Worker where
 {
-    _id: usize,
+    worker_id: usize,
     t: Option<JoinHandle<()>>,
 }
 
 impl Worker
 {
     fn new(id: usize, receiver: Arc::<Mutex<mpsc::Receiver<Message>>>) -> Worker {
-        let t = thread::spawn( move || {
-            loop {
-                let message = receiver.lock().unwrap().recv().unwrap();
-                match message {
-                    Message::NewJob(job) => {
-                        println!("do job from worker[{}]", id);
-                        job();
-                    },
-                    Message::JobFinish => {
-                        println!("ByeBye from worker[{}]", id);
-                        break
-                    },
-                }
-            }
-        });
-
-        Worker {
-            _id: id,
-            t: Some(t),
-        }
+        todo!()
     }
 }
 
@@ -84,38 +99,18 @@ impl Worker
 
 impl Pool where {
     pub fn new(max_workers: usize) -> Pool {
-        if max_workers == 0 {
-            panic!("max_workers must be greater than zero!")
-        }
-        let (tx, rx) = mpsc::channel();
-
-        let mut workers = Vec::with_capacity(max_workers);
-        let receiver = Arc::new(Mutex::new(rx));
-        for i in 0..max_workers {
-            workers.push(Worker::new(i, Arc::clone(&receiver)));
-        }
-
-        Pool { workers: workers, max_workers: max_workers, sender: tx }
+        todo!()
     }
 
     pub fn execute<F>(&self, f:F) where F: FnOnce() + 'static + Send
     {
-
-        let job = Message::NewJob(Box::new(f));
-        self.sender.send(job).unwrap();
+        todo!()
     }
 }
 
 impl Drop for Pool {
     fn drop(&mut self) {
-        for _ in 0..self.max_workers {
-            self.sender.send(Message::JobFinish).unwrap();
-        }
-        for w in self.workers.iter_mut() {
-            if let Some(t) = w.t.take() {
-                t.join().unwrap();
-            }
-        }
+        todo!()
     }
 }
 
