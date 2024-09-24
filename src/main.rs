@@ -40,7 +40,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    println!("Read complete");
+    println!("Read complete, we have {} line", input.len());
 
     // use crate::framework::MapReduceString;
     let final_result = framework::map_reduce_string(input);
