@@ -1,6 +1,8 @@
 mod mapper;
 mod reducer;
-mod ThreadPool;
+// mod ThreadPool;
+mod test;
+mod threadPool_test;
 
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
