@@ -1,7 +1,7 @@
 # Simple Rust Thread Pool
 
 
-
+![img.png](image/ThreadPool.png)
 
 
 The `sender` in the thread pool implementation is part of an MPSC (multi-producer, single-consumer) channel used for sending tasks to worker threads. Here's a detailed explanation of its role:
