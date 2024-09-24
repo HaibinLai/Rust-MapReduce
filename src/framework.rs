@@ -1,9 +1,11 @@
  use std::collections::HashMap;
  use std::sync::{Arc, Mutex};
+ // use std::time::Instant;
  use rayon::prelude::*;
  use crate::{mapper, reducer};
 
  pub fn map_reduce_string(input: Vec<String>) -> HashMap<String, usize> {
+     // let start_time = Instant::now(); // counting
 
      /*
      # Map
@@ -35,6 +37,9 @@
      */
      let final_result = reducer::fetch_reduce(results);
      println!("Finish Reduce");
+
+     // let duration = start_time.elapsed(); // ending
+     // println!("Total time: {:?}", duration);
 
      final_result
  }
