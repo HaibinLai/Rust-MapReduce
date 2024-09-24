@@ -4,6 +4,8 @@ mod reducer;
 mod test;
 mod threadPool_test;
 mod ThreadPool;
+mod Framework;
+mod mapreduce;
 
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
@@ -18,12 +20,7 @@ use std::io::{self, BufRead};
 
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let input = vec![
-        "hello world",
-        "hello rust",
-        "hello map reduce",
-        "rust is great",
-    ];
+
 
     let file_paths = vec!["books/Beowulf.txt", "books/Adventures_in_Wonderland.txt", "books/Pride_and_Prejudice.txt",
         "books/Sherlock_Holmes.txt", "books/The_Prince.txt", "books/Dorian_Gray.txt", "books/Dracula.txt",
@@ -40,13 +37,51 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
+   let final_result = Framework::map_reduce(input);
+
+    // Print the result
+    for (word, count) in final_result {
+        if word == "CHAPTER" {
+            println!("{}: {}", word, count);
+        }
+    }
+    Ok(())
+}
+
+
+#[test]
+fn test_framework(){
+    let input = vec![
+        String::from("hello world"),
+        String::from("hello rust"),
+        String::from("hello map reduce"),
+        String::from("rust is great"),
+    ];
+
+    let final_result = Framework::map_reduce(input);
+    // Print the result
+    for (word, count) in final_result {
+        println!("{}: {}", word, count);
+    }
+}
+
+#[test]
+fn test_main(){
+    let input = vec![
+        "hello world",
+        "hello rust",
+        "hello map reduce",
+        "rust is great",
+    ];
+
+
     let mut handles = vec![];
     let results = Arc::new(Mutex::new(vec![]));
 
     for line2 in input {
         let results_clone = Arc::clone(&results);
         let handle = thread::spawn(move || {
-            let mapped = mapper::map(line2.as_str());
+            let mapped = mapper::map(line2);
             results_clone.lock().unwrap().push(mapped);
         });
         handles.push(handle);
@@ -72,9 +107,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Print the result
     for (word, count) in final_result {
-        if word == "CHAPTER" {
-            println!("{}: {}", word, count);
-        }
+        println!("{}: {}", word, count);
     }
-    Ok(())
+
 }
