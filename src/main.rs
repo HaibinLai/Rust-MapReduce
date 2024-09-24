@@ -1,4 +1,5 @@
 mod mapper;
+mod reducer;
 
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
@@ -8,13 +9,7 @@ use std::thread;
 
 
 // Reduce function
-fn reduce(mapped_data: Vec<(String, usize)>) -> HashMap<String, usize> {
-    let mut result = HashMap::new();
-    for (word, count) in mapped_data {
-        *result.entry(word).or_insert(0) += count;
-    }
-    result
-}
+
 
 fn main() {
     let input = vec![
@@ -42,7 +37,7 @@ fn main() {
 
     let mut final_result = HashMap::new();
     for mapped_data in results.lock().unwrap().iter() {
-        let reduced = reduce(mapped_data.clone());
+        let reduced = reducer::reduce(mapped_data.clone());
         for (word, count) in reduced {
             *final_result.entry(word).or_insert(0) += count;
         }
