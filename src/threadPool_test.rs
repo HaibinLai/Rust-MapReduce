@@ -1,6 +1,6 @@
 use std::sync::{Arc, Mutex};
 use std::thread;
-use crate::test::Pool;
+use crate::CheckPool::Pool;
 
 #[cfg(test)]
 mod tests {

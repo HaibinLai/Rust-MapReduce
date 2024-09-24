@@ -1,15 +1,8 @@
+mod framework;
 mod mapper;
 mod reducer;
-// mod ThreadPool;
-mod test;
-mod threadPool_test;
-mod ThreadPool;
-mod Framework;
 mod mapreduce;
 
-use std::collections::HashMap;
-use std::sync::{Arc, Mutex};
-use std::thread;
 use std::fs;
 use std::io::{self, BufRead};
 
@@ -39,7 +32,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Read complete");
 
-   let final_result = Framework::map_reduce(input);
+    // use crate::framework::MapReduceString;
+    let final_result = framework::map_reduce_string(input);
 
     // Print the result
     for (word, count) in final_result {
@@ -53,6 +47,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn test_framework(){
+
     let input = vec![
         String::from("hello world"),
         String::from("hello rust"),
@@ -60,7 +55,9 @@ fn test_framework(){
         String::from("rust is great"),
     ];
 
-    let final_result = Framework::map_reduce(input);
+    // use framework;
+    // use crate::framework::MapReduceString;
+    let final_result = framework::map_reduce_string(input);
     // Print the result
     for (word, count) in final_result {
         println!("{}: {}", word, count);
@@ -69,43 +66,15 @@ fn test_framework(){
 
 #[test]
 fn test_main(){
-    let input = vec![
-        "hello world",
-        "hello rust",
-        "hello map reduce",
-        "rust is great",
+    let input:Vec<String> = vec![
+        "hello world".to_string(),
+        "hello rust".to_string(),
+        "hello map reduce".into(),
+        "rust is great".to_string(),
     ];
 
-
-    let mut handles = vec![];
-    let results = Arc::new(Mutex::new(vec![]));
-
-    for line2 in input {
-        let results_clone = Arc::clone(&results);
-        let handle = thread::spawn(move || {
-            let mapped = mapper::map(line2);
-            results_clone.lock().unwrap().push(mapped);
-        });
-        handles.push(handle);
-    }
-
-    println!("Finish Map");
-
-    for handle in handles {
-        handle.join().unwrap();
-    }
-
-    println!("Finish Shuffling");
-
-    let mut final_result = HashMap::new();
-    for mapped_data in results.lock().unwrap().iter() {
-        let reduced = reducer::reduce(mapped_data.clone());
-        for (word, count) in reduced {
-            *final_result.entry(word).or_insert(0) += count;
-        }
-    }
-
-    println!("Finish Reduce");
+    // use crate::framework::MapReducestr;
+    let final_result = framework::map_reduce_string(input);
 
     // Print the result
     for (word, count) in final_result {
