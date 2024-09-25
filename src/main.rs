@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "books/Dubliners.txt",
         "books/Great_Expectations.txt",
         "books/Siddhartha.txt"
-        ]; // 替换为你的文件路径
+        ]; // your file path
 
     let mut input = Vec::new();
 

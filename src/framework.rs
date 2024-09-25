@@ -8,7 +8,7 @@
      let start_time = Instant::now(); // counting
 
      /*
-     # Map
+     Map
      */
      let results = Arc::new(Mutex::new(vec![]));
 
@@ -26,14 +26,10 @@
 
      println!("Finish Map");
 
-     // for handle in handles {
-     //     handle.join().unwrap();
-     // }
-
      println!("Finish Shuffling");
 
      /*
-     # Reduce
+     Reduce
      */
      let final_result = reducer::fetch_reduce(results);
      println!("Finish Reduce");
